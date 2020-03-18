@@ -1,0 +1,19 @@
+# Documentation on gitignore : https://git-scm.com/docs/gitignore
+
+# General extensions
+
+*.toc
+*.gz
+*.bbl
+*.bcf
+*.run.xml
+*.log
+*.aux
+*.blg
+*.out
+*.zip
+*.m~
+*.asv
+
+# Specific paths
+
