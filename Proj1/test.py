@@ -7,15 +7,7 @@
 # IMPORTS
 #########
 
-# import torch
-# import torch.nn as nn
-# import torch.nn.functional as F
-# import torch.optim as optim
-# from torch import Tensor
-# from torch.utils.tensorboard import SummaryWriter
-# import time
 import numpy as np
-# import matplotlib.pyplot as plt
 import networks as networks
 import data as data
 
