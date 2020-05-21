@@ -1,0 +1,38 @@
+\section{Structure}
+To program our neural network, we decide to separate the program in two main \mintinline{python}{class} as shown in the Figure XXXX
+
+INSERT FIGURE
+
+\subsection{Class neural network}
+
+The first \mintinline{python}{class} is \mintinline{python}{NeuralNetwork}. This \mintinline{python}{class} is use to initialize the neural network and train it, it contain the following function (The complete \mintinline{python}{class} is in the appendix~\ref{app::NeuralNetwork}):
+
+There is a brief description of each function utility :
+\begin{itemize}
+	\item \mintinline{python}{def __init__(self)} : construct a empty neural network.
+	\item \mintinline{python}{def sequential(self,*args)} : function to define the layer of the neural network, it need a series of constructor like Linear.
+	\item \mintinline{python}{def run(self, input_data)} : Compute the result of the neural network in function of the input.
+	\item \mintinline{python}{def loss(self, x, target)} : Compute the MSE loss.
+	\item \mintinline{python}{def d_loss(self, x, target)} : Compute the derivative of the loss.
+	\item \mintinline{python}{def test_error(self, test_input, test_label)} : compute the number of error of classification in function of a test set input and these label.
+	\item \mintinline{python}{def params(self)} : Print all information of the network like layer type, number of input, number of output, weight matrix and bias matrix for each layer.
+	\item \mintinline{python}{def train_network(self, train_set, train_output, epochs, batch_size, learning_rate, print_error=False,}\\
+	\mintinline{python}{test_set=None, test_label=None)} : Train the neural network with or without printing the percentage of error at each epochs in function of the boolean  \mintinline{python}{print_error}
+\end{itemize}
+
+To make the \mintinline{python}{class NeuralNetwork} work, we need a class of the layer.
+ 
+\subsection{Layer}
+
+The second \mintinline{python}{class} is \mintinline{python}{Linear}
+
+\begin{minted}{python}
+class Linear:
+	def __init__(self, nb_input, nb_output):
+	def activation(self,x):
+	def d_activation(self, x):
+	def forward_pass(self,x):	
+	def backward_pass(self, dl_dy):
+	def update_parameters(self, learning_rate, batch_size):
+	def params(self):
+\end{minted}
