@@ -83,18 +83,21 @@ class NeuralNetwork:
             print(f"Layer : {i+1}")
             layer.params()
 
-    def train_network(self, train_set, train_output, epochs, batch_size, learning_rate, print_error=False, test_set=None, test_label=None):
+    def train_network(self, train_set, train_output, epochs, batch_size, learning_rate, print_error=False, \
+                      test_set=None, test_label=None):
         """
         Train neural network
         Parameters : 
             train_set -- Set of input to train the neutal network matrix(nb, dim)
             train_output -- Set of output to compute the loss matrix(nb, dim)
             epochs -- Number of time to use train_set to train the neural network
-            batch_size -- Number of input to take in acompt before updating the parameters must be a integer division from epochs
+            batch_size -- Number of input to take in acompt before updating the parameters must be a 
+                          integer division from epochs
             learning_rate -- Learning rate of the neural network
             print_error -- Boolean, default False, True print the loss and % of error at each epochs
             test_set -- Default none, have to be set if print_error=True, set of input to test the neural network
-            test_label -- Defaulf none, have to be set if print_error=True, set of label to test the neural network
+            test_label -- Defaulf none, have to be set if print_error=True, set of label to test the neural 
+                          network
         """
         for k in range(epochs):
             acc_loss = 0
