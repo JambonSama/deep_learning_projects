@@ -12,8 +12,7 @@ import numpy as np  # only for plots + csv export
 
 def prepare_results(epoch_training_durations, param_nums, epoch_nums, loss_arrays, accuracies):
     """
-    Prepares the all the metrics obtained from training and testing 
-    the N nets for data visualizations.
+    Prepares all the metrics obtained from training and testing the N nets for data visualizations.
     Parameters : 
         epoch_training_durations -- tensor of size N containing the duration of one epoch training for each net
         param_nums -- tensor of size N containing the number of parameters for each of the N nets

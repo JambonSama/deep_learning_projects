@@ -13,9 +13,14 @@ import torch.optim as optim
 
 class AutoNet(nn.Module):
     """
-    AutoNet class : Mother class from which our instanciated networks 
+    AutoNet class : Base class from which our instanciated networks 
     inherit, this abstract class provides methods for automatic 
     network processing and benchmarking.
+
+    The derived classes must implement:
+    - get_loss_number
+    - train_batch
+    - test_net
     """
 
     def __init__(self):
@@ -23,9 +28,9 @@ class AutoNet(nn.Module):
 
     def get_loss_number(self):
         """
-        Pure virtual method which in daughter classes returns the number 
-        of losses (for storing the losses in lists) returned by the 
-        forward pass (1 without AL, 4 if AL).
+        Pure virtual method that returns the number of losses (for 
+        storing the losses in lists) returned by the forward pass (1 
+        without AL, 4 if AL).
         """
         raise NotImplementedError
 
@@ -42,9 +47,9 @@ class AutoNet(nn.Module):
 
     def train_batch(self, parameter_list):
         """
-        Pure virtual method which in daughter classes trains one batch.
+        Pure virtual method that trains one batch.
         Parameter :
-            parameter_list -- in daughter classes, the batch to train
+            parameter_list -- the batch to train
         """
         raise NotImplementedError
 
@@ -76,8 +81,8 @@ class AutoNet(nn.Module):
 
     def test_net(self, parameter_list):
         """
-        Pure virtual methods which in daughter classes test the network
-        on the DataLoader passed and returns the accuracy on that set.
+        Pure virtual method that tests the network on the passed 
+        DataLoader and returns the accuracy on that set.
         Parameter : 
             test_loader -- DataLoader on which to test the network
         """
@@ -85,7 +90,7 @@ class AutoNet(nn.Module):
 
     def determine_epoch_num(self, epoch_loader, valid_loader, max_epoch_num=200):
         """
-        Estimates the optimal number of epochs for which to train the 
+        Estimates the optimal number of training epochs for the 
         network in order to avoid both over and under fitting.
         Parameters :
             epoch_loader -- DataLoader used to train the network
@@ -113,7 +118,7 @@ class AutoNet(nn.Module):
 class DigitNet(AutoNet):  # TODO: no separation
     """
     DigitNet class : This class is a network that takes a single 
-    channel 14x14 grayscale image of digit and returns the digit class.
+    channel 14x14 grayscale image of a digit and returns the digit class.
     """
 
     def __init__(self):
@@ -177,7 +182,7 @@ class NaiveNet(AutoNet):  # TODO: no separation
     NaiveNet class : This class is a network that takes two images of 
     a digit in input, each on a single channel 14x14 tensor, and 
     outputs whether the first digit is lesser or equal to the second 
-    (two classes). This net doesn't present either weight sharing nor 
+    (two classes). This net doesn't implement neither weight sharing nor 
     auxiliary losses.
     """
 
@@ -259,7 +264,7 @@ class WeightSharingNet(AutoNet):
     WeightSharingNet class : This class is a network that takes two 
     images of a digit in input, each on a single channel 14x14 tensor, 
     and outputs whether the first digit is lesser or equal to the 
-    second (two classes). This net presents weight sharing, but not 
+    second (two classes). This net implements weight sharing, but not 
     auxiliary losses.
     """
 
@@ -336,7 +341,7 @@ class AuxiliaryLossesNet(AutoNet):  # TODO: no separation
     WeightSharingNet class : This class is a network that takes two 
     images of a digit in input, each on a single channel 14x14 tensor, 
     and outputs whether the first digit is lesser or equal to the 
-    second (two classes). This net presents auxiliary losses, but not 
+    second (two classes). This net implements auxiliary losses, but not 
     weight sharing.
     """
 
@@ -425,7 +430,7 @@ class WsalNet(AutoNet):
     WeightSharingNet class : This class is a network that takes two 
     images of a digit in input, each on a single channel 14x14 tensor, 
     and outputs whether the first digit is lesser or equal to the 
-    second (two classes). This net presents both weight sharing and 
+    second (two classes). This net implements both weight sharing and 
     auxiliary losses.
     """
 

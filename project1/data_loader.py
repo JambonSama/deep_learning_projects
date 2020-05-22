@@ -10,11 +10,11 @@ import dlc_practical_prologue as prologue
 
 def generate_set_loaders(N=1000, batch_size=4, percentage=0.2):
     """
-    Prepares the all torch DataLoader for training, validation and 
+    Prepares all the torch DataLoaders for training, validation and 
     testing sets to feed to the torch networks, in batches.
     Parameters : 
         N -- Size of the training and testing sets
-        batch_size -- Number of input per batch
+        batch_size -- Number of inputs per batch
         percentage -- Splitting percentage between epoch and validation sets, epoch set is a training set used when estimating optimal epoch number for training
     """
     # data loading
