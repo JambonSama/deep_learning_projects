@@ -1,39 +1,42 @@
 \section{Structure}
-To program the neural network, the program is separate in two main part. The first part is the \mintinline{python}{class NeuralNetwork} which run the neural network. The second part is the layer which is a series of class to make the Linear, ReLu and TanH layers and compute theirs forward and backward pass. 
+To program the neural network, the program is separated in two major parts. The first part is the \mintinline{python}{class NeuralNetwork} which encapsulates a neural network per instance. The second part is the layer which is a series of classes to make the Linear, ReLu and TanH layers and compute theirs forward and backward passes. 
 
 \subsection{Class neural network}
 
-The first class is \mintinline{python}{NeuralNetwork}. This class is use to initialize the neural network and train it, it contain the following function (The complete code for this class is in the appendix~\ref{app::NeuralNetwork}):
+The first class is \mintinline{python}{NeuralNetwork}. This class is used to initialize the neural network and train it.
+It contains the following functions (the complete code for this class is available in the appendix~\ref{app::NeuralNetwork}):
 
 \begin{itemize}
-	\item \mintinline{python}{def __init__(self)} : construct a empty neural network.
-	\item \mintinline{python}{def sequential(self,*args)} : function to define the layer of the neural network, it need a series of constructor : Linear, ReLu or TanH.
-	\item \mintinline{python}{def run(self, input_data)} : Compute the result of the neural network in function of the input.
-	\item \mintinline{python}{def loss(self, x, target)} : Compute the MSE loss.
-	\item \mintinline{python}{def d_loss(self, x, target)} : Compute the derivative of the loss.
-	\item \mintinline{python}{def test_error(self, test_input, test_label)} : Compute the number of error of classification in function of a test set input and test label.
-	\item \mintinline{python}{def params(self)} : Print all information of the network like layer type, number of input, number of output, weight and bias matrix for each layer.
+	\item \mintinline{python}{def __init__(self)} : Constructs an empty neural network.
+	\item \mintinline{python}{def sequential(self, *args)} : Defines the layer of the neural network, it requires a non-fixed non-null number of arguments, amongst Linear, ReLu or TanH.
+	\item \mintinline{python}{def run(self, input_data)} : Computes the result of the neural network as a function of the input.
+	\item \mintinline{python}{def loss(self, x, target)} : Computes the MSE loss.
+	\item \mintinline{python}{def d_loss(self, x, target)} : Computes the derivative of the loss.
+	\item \mintinline{python}{def test_error(self, test_input, test_label)} : Computes the number of classification errors as a function of a test set and test label, both passed as arguments.
+	\item \mintinline{python}{def params(self)} : Prints all information of the network like layer type, number of inputs, number of outputs, weight and bias matrices for each layer.
 	\item \mintinline{python}{def train_network(self, train_set, train_output, epochs, batch_size, learning_rate, print_error=False,}\\
-	\mintinline{python}{test_set=None, test_label=None)} : Train the neural network with a training set, a training output, a number of epochs, a batch size (For a stochastic gradient descent the batch size equal to 1), a learning rate and a boolean for printing the percentage of error on a test set at each epochs, if it set to True a test set and his label are needed.
+	\mintinline{python}{test_set=None, test_label=None)} : Trains the neural network with a training set, a training output, a number of epochs, a batch size, a learning rate and a boolean for printing the percentage of error on a test set at each epochs. If that boolean is set to True, a test set and its label set are required. For a stochastic gradient descent the batch size equal to 1.
 \end{itemize}
 
-To use the \mintinline{python}{class NeuralNetwork}, a class for the layer is needed for the use of the sequential function.
+To use the \mintinline{python}{sequential} function of the \mintinline{python}{class NeuralNetwork}, it is required that there at least be one layer.
  
 \subsection{Layer}
 
-The second class is Linear. The \mintinline{python}{class Linear} contain the following function (The complete code for \mintinline{python}{class Linear} is in the appendix~\ref{app::Layer}) 
+The second class is \mintinline{python}{Linear}. This class contains the following functions (the complete code for this class is available in the appendix~\ref{app::Layer}) 
 
 \begin{itemize}
-	\item \mintinline{python}{def __init__(self, nb_input, nb_output)} : Create the Linear layer and initialize the weight and bias matrix with the Xavier initialization.
-	\item \mintinline{python}{def activation(self,x)} : Compute the activation function, in a linear layer, there is no activation function thus the function return the input.
-	\item \mintinline{python}{def d_activation(self, x)} : Compute the derivative of the activation function, in a linear layer, there is no activation function thus the derivative activation return 1.
-	\item \mintinline{python}{def forward_pass(self,x)} : Compute the forward pass for the layer, multiply the input by the weight and add the bias then call the activation function with the result. Return the result of the activation function. Save the input and the result of z to facilitate the computation of the backward pass.
-	\item \mintinline{python}{def backward_pass(self, dl_dy)} Compute the backward pass for the layer, compute the derivative of the loss with respect of the weight, bias and input. Then accumulate the derivative of the weight and bias.
-	\item \mintinline{python}{def update_parameters(self, learning_rate, batch_size)} : Update the parameters in function of the accumulative derivative of the weight and the bias with a learning rate and the batch size.
-	\item \mintinline{python}{def params(self)} : Print useful information about the  layer, his type, number of neuron input and output, shape of the weight and bias matrix and value of those matrix.
+	\item \mintinline{python}{def __init__(self, nb_input, nb_output)} : Creates the Linear layer and initializes the weight and bias matrix with the Xavier initialization.
+	\item \mintinline{python}{def activation(self, x)} : Computes the activation function. In a linear layer, there is no activation function thus the function returns the input.
+	\item \mintinline{python}{def d_activation(self, x)} : Computes the derivative of the activation function. In a linear layer, there is no activation function thus the activation derivative returns 1.
+	\item \mintinline{python}{def forward_pass(self, x)} : Computes the forward pass for the layer. It multiplies the input by the weight and add the bias. Then, it calls the activation function with the result. It returns the result of the activation function. And it also saves the input and the activation function input to facilitate the computation of the backward pass.
+	\item \mintinline{python}{def backward_pass(self, dl_dy)} Computes the backward pass for the layer. It computes the derivative of the loss with respect to the weight, bias and input. Then it accumulates the derivative of the weight and bias.
+	\item \mintinline{python}{def update_parameters(self, learning_rate, batch_size)} : Updates the parameters in function of the cumulative derivative of the weight and the bias with a learning rate and the batch size.
+	\item \mintinline{python}{def params(self)} : Prints useful information about the layer, its type, number of input and output neurons, shape of the weight and bias matrix, and value of those matrix.
 \end{itemize}
 
-To implement the ReLu and the TanH layer, two child class was made. In this two class, the constructor, the activation and the derivative activation function are overload to have the correct function and initialization for ReLu and TanH layer. Those function are resume in the Table~\ref{tab::layer_recap}
+To implement the ReLu and the TanH layer, two derived classes were made. 
+In these two classes, the constructor, the activation and the derivative activation function are overload to have the correct functions and initializations.% for ReLu and TanH layer. 
+These functions are summarized in the Table~\ref{tab::layer_recap} below:
 
 \begin{table}[H]
 	\sffamily
@@ -52,6 +55,6 @@ To implement the ReLu and the TanH layer, two child class was made. In this two 
 		ReLu			& Xavier	& max(0,x)		& 1 if x>0 else 0 		 		\\
 		TanH			& He		& tanh(x) 		& 1 - tanh$^2$(x)		
 	\end{tabular}
-	\caption{ReLu and TanH description.}
+	\caption{ReLu and TanH descriptions.}
 	\label{tab::layer_recap}
 \end{table}
