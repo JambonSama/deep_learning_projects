@@ -1,6 +1,6 @@
 \section{Strategy}
 
-First, let's remind what are weight sharing and auxiliary losses:
+First, let's remind what weight sharing and auxiliary losses are:
 \begin{itemize}
 	\item Auxiliary losses allow to promote learning for stacked modules (within an architecture) by attaching a prediction to said module(s). The (auxiliary) prediction(s) lead to auxiliary loss(es) during training, incidentally helping with the vanishing gradient issue. The back-propagation is generally done on a weighted sum of the losses. Here, because the information of each channel's digit is known, it is possible to compute a loss on each channel's digit classification in addition to the target classification.
 	\item Weight sharing refers to architectures where the same layer(s) are used several times within the network, either in a circular fashion or in a parallel one. Here, because the input consists of two channels of a 14x14 greyscale image representing a digit, each channel can be subjected to the same processing (up until where digit classification happens in case of auxiliary losses use). Thus, up until that moment, the same layers can be used.
