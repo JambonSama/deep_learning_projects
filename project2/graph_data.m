@@ -71,6 +71,8 @@ plot(pointOutR(:,1),pointOutR(:,2),'b.','MarkerSize',10)
 plot(pointInR(:,1),pointInR(:,2),'r.','MarkerSize',10)
 rectangle('Position',[0.5-radius 0.5-radius 2*radius 2*radius],'Curvature',[1 1])
 axis equal
+xlim([0 1])
+ylim([0 1])
 saveas(gcf,"../report2/img/relu_out.eps","epsc")
 
 figure
@@ -79,5 +81,7 @@ plot(pointOutT(:,1),pointOutT(:,2),'b.','MarkerSize',10)
 plot(pointInT(:,1),pointInT(:,2),'r.','MarkerSize',10)
 rectangle('Position',[0.5-radius 0.5-radius 2*radius 2*radius],'Curvature',[1 1])
 axis equal
+xlim([0 1])
+ylim([0 1])
 saveas(gcf,"../report2/img/tanh_out.eps","epsc")
 
