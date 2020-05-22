@@ -1,7 +1,7 @@
+# Import
 import numpy as np
 import torch
 
-# Class definition
 class Linear:
     """
     Linear class : create a linear layer of the neural network
@@ -82,7 +82,7 @@ class Linear:
         """
         self.weight = self.weight - learning_rate * self.acc_weight/batch_size
         self.bias = self.bias - learning_rate * self.acc_bias/batch_size
-        
+
     def params(self):
         """
         Print of information of the layer
@@ -107,7 +107,7 @@ class ReLu(Linear):
     def __init__(self, nb_input, nb_output):
         Linear.__init__(self, nb_input, nb_output)
         self.layer_type = "ReLu"
-        self.variance = 2.0 * 2.0 / (nb_input + nb_output)
+        self.variance = 2.0*2.0 / (nb_input + nb_output)
         self.weight = np.sqrt(self.variance)*torch.randn(nb_input, nb_output)
 
     def activation(self, x):
@@ -129,7 +129,6 @@ class ReLu(Linear):
         Retrun : 
             out -- result of derivate activation for x
         """
-        #print("ReLu derivate activation function")
         out = (x>0).int()
         return out
     
@@ -167,6 +166,5 @@ class TanH(Linear):
         Retrun : 
             out -- result of derivate activation for x
         """
-        #print("TanH derivate activation function")
         out = 1 - (np.tanh(x)).pow(2)
-        return x
+        return out

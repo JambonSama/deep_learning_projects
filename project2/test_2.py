@@ -10,7 +10,7 @@ torch.set_grad_enabled(False)
        
 def main():
     # Parameters for train and test set generation
-    print("**** Train and test set generation ****")
+    #print("**** Train and test set generation ****")
     torch.random.manual_seed(42)
     center = [0.5,0.5]
     radius2 = 1.0/(2*np.pi)
@@ -28,9 +28,9 @@ def main():
     # Neural network
     print("**** Creation of the neural network with 3 hidden layers, all ReLu ****")
     net = nn.NeuralNetwork()
-    net.sequential(layer.ReLu(2,25), layer.ReLu(25,25), layer.ReLu(25,25), layer.ReLu(25,2))
+    net.sequential(layer.TanH(2,25), layer.TanH(25,25), layer.TanH(25,25), layer.TanH(25,2))
     print("**** Training the neural network ****")
-    net.train_network(train_set, train_label, epochs=50, batch_size=1, learning_rate=0.02, print_error=True, test_set=test_set, test_label=test_label)
+    net.train_network(train_set, train_label, epochs=100, batch_size=1, learning_rate=0.02, print_error=True, test_set=test_set, test_label=test_label)
     print("**** Training done ****")
     net.params()
 

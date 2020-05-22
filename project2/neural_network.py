@@ -10,6 +10,7 @@ class NeuralNetwork:
     def __init__(self):
         self.layers = []
         self.graph_loss = []
+        self.logs = np.zeros((100,3))
     
     def sequential(self,*args):
         """
@@ -103,7 +104,6 @@ class NeuralNetwork:
             acc_loss = 0
 
             for i in range((int)(train_set.size(0)/batch_size)):
-                
                 for layer in self.layers:
                     layer.acc_weight = 0
                     layer.acc_bias = 0
@@ -113,7 +113,7 @@ class NeuralNetwork:
                     output = train_set[(i*batch_size)+n]
                     for layer in self.layers:
                         output = layer.forward_pass(output)
-                    
+
                     # Loss Calculus
                     acc_loss = acc_loss + self.loss(output, train_output[(i*batch_size)+n])
                     
@@ -131,3 +131,8 @@ class NeuralNetwork:
             if print_error:
                 error= self.test_error(test_set, test_label)
                 print(f"Epoch : {k+1}, Loss : {acc_loss:6.2f}, Error : {error/test_set.size(0)*100.0:6.2f}%")
+                self.logs[k,0] = k+1
+                self.logs[k,1] = acc_loss
+                self.logs[k,2] = 100.0-error/test_set.size(0)*100.0
+
+        np.savetxt('logsTanH_5.csv', self.logs,delimiter=';')
