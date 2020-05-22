@@ -67,32 +67,27 @@ class DigitNet(AutoNet):  # TODO: no separation
     def __init__(self):
         super().__init__()
         # convolutional layers
-        self.conv1_0 = nn.Conv2d(1, 6, 3)
-        self.conv2_0 = nn.Conv2d(6, 16, 3)
-        self.conv1_1 = nn.Conv2d(1, 6, 3)
-        self.conv2_1 = nn.Conv2d(6, 16, 3)
+        self.conv1 = nn.Conv2d(1, 6, 3)
+        self.conv2 = nn.Conv2d(6, 16, 3)
         # pooling layers
         self.pool1 = nn.MaxPool2d(2, 1, 1)
         self.pool2 = nn.MaxPool2d(2)
         # fully connected layers
-        self.fc1_0 = nn.Linear(16*5*5, 120)
-        self.fc2_0 = nn.Linear(120, 84)
-        self.fc3_0 = nn.Linear(84, 10)
-        self.fc1_1 = nn.Linear(16*5*5, 120)
-        self.fc2_1 = nn.Linear(120, 84)
-        self.fc3_1 = nn.Linear(84, 10)
+        self.fc1 = nn.Linear(16*5*5, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 10)
         # training variables
         self.crit = nn.CrossEntropyLoss()
         self.opti = optim.Adam(self.parameters())
 
     def forward(self, x):
         x = torch.unsqueeze(x[:, 0, :, :], 1)  # unsqueeze for convl
-        x = self.pool1(F.celu(self.conv1_0(x)))
-        x = self.pool2(F.celu(self.conv2_0(x)))
+        x = self.pool1(F.celu(self.conv1(x)))
+        x = self.pool2(F.celu(self.conv2(x)))
         x = x.view(-1, 16*5*5)
-        x = F.celu(self.fc1_0(x))
-        x = F.celu(self.fc2_0(x))
-        x = F.celu(self.fc3_0(x))
+        x = F.celu(self.fc1(x))
+        x = F.celu(self.fc2(x))
+        x = F.celu(self.fc3(x))
         return x
 
     def train_batch(self, batch):

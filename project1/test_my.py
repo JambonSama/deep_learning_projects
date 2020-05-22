@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -6,10 +5,16 @@
 # imports
 
 import pickle
+import time
 import torch
 import networks as nw
 import data_loader as dl
 import results_analysis as ra
+
+######################################################################
+# script benchmarking
+
+start = time.time()
 
 ######################################################################
 # params
@@ -24,10 +29,8 @@ if N//BATCH_SIZE != N/BATCH_SIZE:
     raise ArithmeticError("Batch number is not integer!")
 
 ######################################################################
-# generating set loaders
-
-valid_loader, epoch_loader, train_loader, test_loader = dl.generate_set_loaders(
-    N, BATCH_SIZE, VALIDATION_RATIO)
+# networks weights random initialization
+torch.seed()
 
 ######################################################################
 # array inits for results analysis
@@ -39,7 +42,7 @@ loss_arrays = []
 accuracies = torch.zeros([ROUND_NUM, NET_NUM])
 
 #####################################################################
-# determining a "good" number of epochs for each net
+# optimal numbers of epochs estimation
 
 # looping for statistical soundness
 for i in range(ROUND_NUM):
@@ -47,6 +50,10 @@ for i in range(ROUND_NUM):
     nets = [nw.DigitNet(), nw.NaiveNet(), nw.WeightSharingNet(),
             nw.AuxiliaryLossesNet(), nw.WsalNet()]
     for j, net in enumerate(nets):
+        # generating set loaders
+        valid_loader, epoch_loader, _, _ = dl.generate_set_loaders(
+            N, BATCH_SIZE, VALIDATION_RATIO)
+
         # determining "good" epoch number
         epoch_num = net.determine_epoch_num(epoch_loader, valid_loader)
         epoch_nums[i][j] = epoch_num
@@ -65,6 +72,10 @@ for i in range(ROUND_NUM):
 
     losses = []
     for j, net in enumerate(nets):
+        # generating set loaders
+        _, _, train_loader, test_loader = dl.generate_set_loaders(
+            N, BATCH_SIZE, VALIDATION_RATIO)
+
         # net training
         loss = net.train_net(epoch_nums[j], train_loader)
         losses.append(loss)
@@ -73,14 +84,21 @@ for i in range(ROUND_NUM):
         accuracy = net.test_net(test_loader)
         accuracies[i, j] = accuracy
 
-    # results archiving
+    # results
     loss_arrays.append(losses)
 
 ######################################################################
 # benchmarking nets
 
+# generating nets
 nets = [nw.DigitNet(), nw.NaiveNet(), nw.WeightSharingNet(),
         nw.AuxiliaryLossesNet(), nw.WsalNet()]
+
+# generating set loaders
+_, _, train_loader, _ = dl.generate_set_loaders(
+    N, BATCH_SIZE, VALIDATION_RATIO)
+
+# measuring time spent training one epoch
 for i, net in enumerate(nets, 0):
     epoch_training_duration[i] = net.measure_epoch_training_duration(
         train_loader)
@@ -94,7 +112,7 @@ pickle.dump((epoch_training_duration, param_nums,
              epoch_nums, loss_arrays, accuracies), f)
 
 ######################################################################
-# results displaying
+# results displaying + archiving as csv
 
 ra.prepare_results(epoch_training_duration, param_nums,
                    epoch_nums, loss_arrays, accuracies)
@@ -102,4 +120,5 @@ ra.prepare_results(epoch_training_duration, param_nums,
 ######################################################################
 # end of script
 
-print("Done")
+end = time.time()
+print(f"Done in {end-start} s.")
