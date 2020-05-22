@@ -66,10 +66,11 @@ ylabel("Accuracy in \%", "interpreter","latex")
 saveas(gcf,"../report2/img/accuracy200.eps","epsc")
 
 figure
-plot(pointOutR(:,1),pointOutR(:,2),'b.','MarkerSize',10)
 hold on
+plot(pointOutR(:,1),pointOutR(:,2),'b.','MarkerSize',10)
 plot(pointInR(:,1),pointInR(:,2),'r.','MarkerSize',10)
 rectangle('Position',[0.5-radius 0.5-radius 2*radius 2*radius],'Curvature',[1 1])
+axis equal
 saveas(gcf,"../report2/img/relu_out.eps","epsc")
 
 figure
@@ -77,5 +78,6 @@ hold on
 plot(pointOutT(:,1),pointOutT(:,2),'b.','MarkerSize',10)
 plot(pointInT(:,1),pointInT(:,2),'r.','MarkerSize',10)
 rectangle('Position',[0.5-radius 0.5-radius 2*radius 2*radius],'Curvature',[1 1])
+axis equal
 saveas(gcf,"../report2/img/tanh_out.eps","epsc")
 
