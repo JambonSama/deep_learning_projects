@@ -1,7 +1,5 @@
 \section{Structure}
-To program our neural network, we decide to separate the program in two main \mintinline{python}{class} as shown in the Figure XXXX
-
-INSERT FIGURE
+To program our neural network, the program is separate in two main part. The first part is the \mintinline{python}{class NeuralNetwork} which run the neural network and the second part the layer which is a series of \mintinline{python}{class} to make the Linear, ReLu and TanH and compute theirs forward and backward pass. 
 
 \subsection{Class neural network}
 
@@ -23,7 +21,7 @@ To make the \mintinline{python}{class NeuralNetwork} work, we need a class of th
  
 \subsection{Layer}
 
-The second \mintinline{python}{class} is \mintinline{python}{Linear}. This \mintinline{python}{class} ..... The \mintinline{python}{class Linear} contain the following function (The complete code for \mintinline{python}{class Linear} is in the appendix~\ref{app::Layer}) 
+The second \mintinline{python}{class} is \mintinline{python}{Linear}. The \mintinline{python}{class Linear} contain the following function (The complete code for \mintinline{python}{class Linear} is in the appendix~\ref{app::Layer}) 
 
 \begin{itemize}
 	\item \mintinline{python}{def __init__(self, nb_input, nb_output)} : Create the Linear layer and initialize the weight and bias matrix.
