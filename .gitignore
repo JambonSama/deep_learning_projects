@@ -16,6 +16,7 @@
 *.asv
 *.pygtex
 *.pygstyle
+*.pck
 
 # Specific paths
 **/data
@@ -23,3 +24,4 @@
 **/.ipynb_checkpoints
 **/svg-inkscape
 **/main.pdf
+**/results/**
