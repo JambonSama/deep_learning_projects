@@ -53,60 +53,25 @@ From the DCM are then built the other architectures:
 \begin{figure}[H]
 	\begin{subfigure}[h]{0.495\textwidth}
 		\begin{center}
-			\begin{tikzpicture}
-			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.8\textwidth]{nn_wsal}};
-			
-			\begin{scope}[x={(image.south east)},y={(image.north west)}]
-			
-%			\node[] at (0.40, 0.78) {$\theta$};
-%			\node[] at (0.7,0.32) {$\theta$};
-%			
-%			\node[blue] at (0.48,0.98) {$z_1$};
-%			\node[blue] at (-0.05,0.2) {$x_1$};
-%			\node[blue] at (0.92,0.12) {$y_1$};
-%			
-%			\node[red] at (0.28,1.04) {$z_2$};
-%			\node[red] at (0.06,0.12) {$x_2$};
-%			\node[red] at (0.92,0.36) {$y_2$};
-			
-			\end{scope}
-			\end{tikzpicture}
+			\includegraphics[width=0.8\textwidth,clip=true,trim=1cm 9cm 0.5cm 0.5cm]{nn_wsal}
 			\caption{WS+AL net}
 		\end{center}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.495\textwidth}
 		\begin{center}
-			\begin{tikzpicture}
-			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.8\textwidth]{nn_al}};
-			
-			\begin{scope}[x={(image.south east)},y={(image.north west)}]
-			
-			\end{scope}
-			\end{tikzpicture}
+			\includegraphics[width=0.8\textwidth,clip=true,trim=1cm 9cm 0.5cm 0.5cm]{nn_al}
 			\caption{AL net}
 		\end{center}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.495\textwidth}
 		\begin{center}
-			\begin{tikzpicture}
-			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.8\textwidth]{nn_ws}};
-			
-			\begin{scope}[x={(image.south east)},y={(image.north west)}]
-			
-			\end{scope}
-			\end{tikzpicture}
+			\includegraphics[width=0.8\textwidth,clip=true,trim=1cm 9cm 0.5cm 0.5cm]{nn_ws}
 			\caption{WS net}
 		\end{center}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.495\textwidth}
 	\begin{center}
-		\begin{tikzpicture}
-			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.8\textwidth]{nn_naive}};
-		
-		\begin{scope}[x={(image.south east)},y={(image.north west)}]
-		
-		\end{scope}
-		\end{tikzpicture}
+		\includegraphics[width=0.8\textwidth,clip=true,trim=1cm 9cm 0.5cm 0.5cm]{nn_naive}
 		\caption{naive net}
 	\end{center}
 \end{subfigure}
