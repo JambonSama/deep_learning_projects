@@ -42,9 +42,9 @@ def prepare_results(epoch_training_durations, param_nums, epoch_nums, loss_array
 
     for i in range(1, len(loss_arrays_mean)):
         # save data
-        np.savetxt(format(f"net{i}_loss_res_mean.csv"),
+        np.savetxt(format(f"{dirName}/net{i}_loss_res_mean.csv"),
                    loss_arrays_mean[0].numpy())
-        np.savetxt(format(f"net{i}_loss_res_std.csv"),
+        np.savetxt(format(f"{dirName}/net{i}_loss_res_std.csv"),
                    loss_arrays_std[0].numpy())
 
         # plots

@@ -14,6 +14,7 @@ import results_analysis as ra
 # script benchmarking
 
 start = time.time()
+print(f"Started.\n")
 
 ######################################################################
 # params
@@ -113,4 +114,4 @@ ra.prepare_results(epoch_training_duration, param_nums,
 # end of script
 
 end = time.time()
-print(f"Done in {end-start} s.")
+print(f"\nDone in {(end-start):.2f} s.")
