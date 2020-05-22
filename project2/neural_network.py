@@ -4,13 +4,12 @@ import torch
 
 class NeuralNetwork:
     """
-    NeuralNetwork class : create a neural network, have to be configure with sequential
+    NeuralNetwork class : create a neural network, has to be configure with sequential
     before using it
     """
     def __init__(self):
         self.layers = []
         self.graph_loss = []
-        self.logs = np.zeros((100,3))
     
     def sequential(self,*args):
         """
@@ -26,12 +25,12 @@ class NeuralNetwork:
         Compute the output of the neural network 
         Parameters : 
             input_data -- input value
-        Retrun : 
+        Return : 
             output -- result of neural network
         """
         output = input_data
         for layer in self.layers:
-            output = layer.forward_pass
+            output = layer.forward_pass(output)
         return output
     
     def loss(self, x, target):
@@ -40,7 +39,7 @@ class NeuralNetwork:
         Parameters : 
             x -- input value
             target -- target value
-        Retrun : 
+        Return : 
             out -- MSE loss between x and target
         """
         out = torch.mean((target-x).pow(2),0)
@@ -52,7 +51,7 @@ class NeuralNetwork:
         Parameters : 
             x -- input value
             target -- target value
-        Retrun : 
+        Return : 
             out -- derivative of MSE loss between x and target
         """
         out = 2.0 * (x - target)/len(x)
@@ -65,14 +64,14 @@ class NeuralNetwork:
         Parameters : 
             test_input -- input value before passing in the neural network
             test_label -- Label to compare to the output of the neural network
-        Retrun : 
+        Return : 
             error -- number of error of classification
         """
         output = test_input
         for layer in self.layers:
             output = layer.forward_pass(output)
-        _, test2 = output.max(dim=1)
-        error = np.sum([0 if x != y else 1 for x,y in zip(test2, test_label)])
+        _, label = output.max(dim=1)
+        error = np.sum([0 if x != y else 1 for x,y in zip(label, test_label)])
         return error
 
     def params(self):
@@ -100,20 +99,18 @@ class NeuralNetwork:
             test_label -- Defaulf none, have to be set if print_error=True, set of label to test the neural 
                           network
         """
+        if print_error:
+            self.logs = np.zeros((epochs,3))
+            
         for k in range(epochs):
             acc_loss = 0
 
             for i in range((int)(train_set.size(0)/batch_size)):
-                for layer in self.layers:
-                    layer.acc_weight = 0
-                    layer.acc_bias = 0
-
+                
                 for n in range(batch_size):
                     # Forward
-                    output = train_set[(i*batch_size)+n]
-                    for layer in self.layers:
-                        output = layer.forward_pass(output)
-
+                    output = self.run(train_set[(i*batch_size)+n])
+                    
                     # Loss Calculus
                     acc_loss = acc_loss + self.loss(output, train_output[(i*batch_size)+n])
                     
@@ -125,14 +122,15 @@ class NeuralNetwork:
                 # Update parameters
                 for layer in self.layers:
                     layer.update_parameters(learning_rate, batch_size)
+                    layer.acc_weight = 0
+                    layer.acc_bias = 0
             # Log loss
             self.graph_loss.append(acc_loss)
 
             if print_error:
                 error= self.test_error(test_set, test_label)
                 print(f"Epoch : {k+1}, Loss : {acc_loss:6.2f}, Error : {error/test_set.size(0)*100.0:6.2f}%")
+                # Save data
                 self.logs[k,0] = k+1
                 self.logs[k,1] = acc_loss
                 self.logs[k,2] = 100.0-error/test_set.size(0)*100.0
-
-        np.savetxt('logsTanH_5.csv', self.logs,delimiter=';')
