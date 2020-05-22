@@ -1,4 +1,6 @@
 \section{Conclusion}
-In this project, a framework for simple neural network was developed with the possibility to construct neural network  with none-fixed number of fully connected Linear, ReLu or TanH layer. It use the stochastic gradient descent with the mean square error as a loss function to train the neural network. It can also use the batch gradient descent, if batch size is set.
+In this project, a simple neural network framework was developed with the possibility to construct neural networks  with a non-fixed numbers of fully connected Linear, ReLu or TanH layers. 
+It uses the stochastic gradient descent with the mean square error as the loss function to train the network. 
+It can also use the batch gradient descent, if a batch size is set.
 
-A improvement to this framework would be to implement a better gradient descent with matrix multiplication so that the backward pass can take as input the result  
+An improvement to this framework would be to implement a more optimized gradient descent with matrix multiplication. Indeed, it would speed up things in case of batch size greater than 1, because the backward pass could take as input the loss, but in batch.
