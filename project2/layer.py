@@ -13,18 +13,20 @@ class Linear:
     """
     def __init__(self, nb_input, nb_output):
         self.layer_type = "Linear"
-        self.variance = 1
+        self.variance = 2.0*2.0 / (nb_input + nb_output)
         self.nb_input = nb_input
         self.nb_output = nb_output
         self.weight = np.sqrt(self.variance)*torch.randn(nb_input, nb_output)
         self.bias = torch.zeros(nb_output)
+        self.acc_weight = 0
+        self.acc_bias = 0
 
     def activation(self,x):
         """
         Linear activation function output = input
         Parameters : 
             x -- input value
-        Retrun : 
+        Return : 
             out -- result of activation for x
         """
         out = x
@@ -32,10 +34,10 @@ class Linear:
 
     def d_activation(self, x):
         """
-        Derivate of linear activation function 
+        Derivative of linear activation function 
         Parameters : 
             x -- value to compute the dervate activation
-        Retrun : 
+        Return : 
             1
         """
         return 1
@@ -45,7 +47,7 @@ class Linear:
         Compute the forward pass, activation(weight * input + bias)
         Parameters : 
             x -- input value
-        Retrun : 
+        Return : 
             out -- result of activation(weight * x + bias)
         """
         self.input_matrix = x
@@ -59,15 +61,15 @@ class Linear:
         Compute the backward pass, compute derivative of loss, accumulate de derivative of 
         the loss in function of the weight and the bias
         Parameters : 
-            dl_dy -- derivative of the loss in function of the output
-        Retrun : 
-            dl_dx -- derivative of the loss in function of the input
+            dl_dy -- derivative of the loss with respect to the output
+        Return : 
+            dl_dx -- derivative of the loss in respect to the input
         """
         dl_dz = self.d_activation(self.z)
         dl_dx = torch.matmul(dl_dz*dl_dy,self.weight.T)
         dl_dw = torch.matmul(self.input_matrix.view(-1,1), (dl_dz*dl_dy).view(1,-1))
         dl_db = dl_dz*dl_dy
-        # Gradian accumulation
+        # Gradient accumulation
         self.acc_weight = self.acc_weight + dl_dw
         self.acc_bias = self.acc_bias + dl_db
         return dl_dx
@@ -78,14 +80,14 @@ class Linear:
         and the accumulated weight and bias
         Parameters : 
             learning_rate -- learning rate of the neural network
-            batch_size -- size of the batch where the gradian was accumulate
+            batch_size -- size of the batch where the gradient was accumulated
         """
         self.weight = self.weight - learning_rate * self.acc_weight/batch_size
         self.bias = self.bias - learning_rate * self.acc_bias/batch_size
 
     def params(self):
         """
-        Print of information of the layer
+        Print information of the layer
         """
         print(f"Layer : {self.layer_type}")
         print(f"Nb input : {self.nb_input}")
@@ -98,7 +100,7 @@ class Linear:
 class ReLu(Linear):
     """
     ReLu class (Inheritance of linear) : create a ReLu layer of the neural network
-    Use 2 time the xavier distribution to initialize weight,
+    Use 2 time the Xavier distribution to initialize weight,
     bias initialize with 0 
     Parameters :
         nb_input -- number of neuron in input
@@ -115,7 +117,7 @@ class ReLu(Linear):
         ReLu activation function output = maximum between 0 and input
         Parameters : 
             x -- input value
-        Retrun : 
+        Return : 
             out -- result of activation for x
         """
         out = (x>0).int()*x
@@ -126,7 +128,7 @@ class ReLu(Linear):
         Derivative of ReLu activation function
         Parameters : 
             x -- value to compute the dervate activation
-        Retrun : 
+        Return : 
             out -- result of derivate activation for x
         """
         out = (x>0).int()
@@ -152,7 +154,7 @@ class TanH(Linear):
         TanH activation function 
         Parameters : 
             x -- input value
-        Retrun : 
+        Return : 
             out -- result of activation for x
         """
         out = np.tanh(x)
@@ -163,7 +165,7 @@ class TanH(Linear):
         Derivate of TanH activation function 
         Parameters : 
             x -- value to compute the dervate activation
-        Retrun : 
+        Return : 
             out -- result of derivate activation for x
         """
         out = 1 - (np.tanh(x)).pow(2)
