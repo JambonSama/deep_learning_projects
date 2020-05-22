@@ -67,9 +67,7 @@ class NeuralNetwork:
         Return : 
             error -- number of error of classification
         """
-        output = test_input
-        for layer in self.layers:
-            output = layer.forward_pass(output)
+        output = self.run(test_input)
         _, label = output.max(dim=1)
         error = np.sum([0 if x != y else 1 for x,y in zip(label, test_label)])
         return error
