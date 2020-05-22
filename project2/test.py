@@ -20,7 +20,7 @@ def main():
     train_distance = ((train_set[:,0]-center[0]).pow(2)+(train_set[:,1]-center[1]).pow(2))
     train_label = torch.tensor([1 if i < radius2 else 0 for i in train_distance])
     # Transform the train_label to be use by the neural network
-    train_label_output  = torch.stack((train_label, torch.tensor([1 if i >= radius2 else 0 for i in train_distance]))\
+    train_label_output  = torch.stack((train_label, torch.tensor([1 if i >= radius2 else 0 for i in train_distance])) \
         ,dim=1)
 
     # Test set
