@@ -1,6 +1,12 @@
 \section{Results}
-The graph below are the result of two neural network, one with TanH layer and one with ReLu layer, with the following parameters :
-$2$ input, $2$ output and $3$ hidden layer of $25$ neuron each, $200$ epochs, batch size of $1$ and a learning rate of $0.02$. The training set is $1000$ random two dimensional points between $0$ and $1$ classified with a $1$ if the point is in a circle center in $[0.5,0.5]$ and radius equal to $1/\sqrt{2\pi}$ and $0$ when the point are outside. A seed is use for the random generation for the parameters to have always value to help to debug and compare the result. The complete code is in the appendix~\ref{app::code}.
+
+The Figure below displays the results of two neural networks, one with TanH layers and one with ReLu layers, with the following parameters:
+$2$ inputs, $2$ outputs and $3$ hidden layers of $25$ neurons each, $200$ epochs, a batch size of $1$ and a learning rate of $0.02$. 
+The training set consists of $1000$ random 2D points between $0$ and $1$.
+They are classified with a $1$ if the point is in a circle centered in $[0.5,0.5]$ and of radius equal to $1/\sqrt{2\pi}$ and $0$ when the point is outside. 
+A seed is used to ensure the random generation of the parameters, in order to have reproducible initializations for debug purposes. 
+The complete code is available in the Appendix~\ref{app::code}.
+
 \begin{figure}[H]
 	\begin{subfigure}[h]{0.4\textwidth}
 		\begin{center}
@@ -26,8 +32,8 @@ $2$ input, $2$ output and $3$ hidden layer of $25$ neuron each, $200$ epochs, ba
 			\caption{Test set classified with TanH}
 		\end{center}
 	\end{subfigure}
-	\caption{Result of two neural network with ReLu and TanH layer with the following parameters : $2$ input, $2$ output and $3$ hidden layer of $25$ neuron each, $200$ epochs, batch size of $1$ and a learning rate of $0.02$}
+	\caption{Result of two neural networks with ReLu and TanH layers with the following parameters : $2$ inputs, $2$ outputs and $3$ hidden layers of $25$ neurons each, $200$ epochs, a batch size of $1$ and a learning rate of $0.02$.}
 	\label{img::result}
 \end{figure}
 
-The final error rate for the ReLu neural network with the test set is $5.8\%$, and $2.2\%$ with the TanH neural network.
+The final error rate for the ReLu neural network with the test set is $5.8\%$, and is $2.2\%$ with the TanH neural network.
