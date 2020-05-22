@@ -1,0 +1,16 @@
+\section{Utilization}
+To use the framework of this project to construct a neural network, the modules \mintinline{python}{neural_network} and \mintinline{python}{layer} have to be import.There is a example of utilization to create a neural network with $2$ input, $2$ output and $3$ hidden layer of $25$ neuron each with TanH layers (the module \mintinline{python}{neural_network} is import as \mintinline{python}{nn}) :
+
+\begin{minted}{python}
+	net = nn.NeuralNetwork()
+	net.sequential(layer.TanH(2,25), layer.TanH(25,25), layer.TanH(25,25), layer.TanH(25,2))
+	net.train_network(train_set, train_label, epochs=100, batch_size=1, learning_rate=0.02, print_error=True, 
+						test_set=test_set, test_label=test_label)
+\end{minted}
+
+The first step is to create neural network with \mintinline{python}{NeuralNetwork()} then parameterize the neural network with the layer needed with \mintinline{python}{sequential(layer.type_layer(nb_input_layer,nb_output_layer),...)}. Then the neural network is ready to train. To train the neural network, the function \mintinline{python}{train_network} is use if the \mintinline{python}{print_error} is set to False, \mintinline{python}{test_set}and \mintinline{python}{test_label} are not needed. Thus, the train function will not compute the error for each epochs. It is important to note that they are no protection for wrong input in this function. The user have to be careful with the input (the train set and test set have to be coherent with the neural network build and batch size have to be a divider of the size of the train set).
+
+After the training, the user freely use the neural network with the function \mintinline{python}{run(input)} and can access different log : the log of the loss with \mintinline{python}{net.graph_loss} and if \mintinline{python}{print_error=True} the log of the loss and the accuracy with \mintinline{python}{net.logs}. He can also see the parameter of the neural network by using the function \mintinline{python}{net.params()}.
+
+\subsection{New layers}
+With the chosen implementation, it is easy to add new type of layers. To add new type of layer, the user have to create a new child class form \mintinline{python}{Linear} and overload the constructor (to initialize differently the weight and bias), the activation function and the derivative function with the new function for the layer.   
