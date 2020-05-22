@@ -6,8 +6,8 @@ Below is an example of use to create a neural network with $2$ inputs, $2$ outpu
 \begin{minted}{python}
 net = nn.NeuralNetwork()
 net.sequential(layer.TanH(2,25), layer.TanH(25,25), layer.TanH(25,25), layer.TanH(25,2))
-net.train_network(train_set, train_label, epochs=100, batch_size=1, learning_rate=0.02, print_error=True, 
-						test_set=test_set, test_label=test_label)
+net.train_network(train_set, train_label_output, epochs=100, batch_size=1, learning_rate=0.02, print_error=True,\
+		test_set=test_set, test_label=test_label)
 \end{minted}
 
 The first step is to create a neural network with \mintinline{python}{NeuralNetwork()}, and then to parametrize it with the required layers with \mintinline{python}{sequential(layer.<layer_type>(nb_input_layer, nb_output_layer), ...)}. 
