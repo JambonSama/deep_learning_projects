@@ -38,4 +38,44 @@ ylabel("Accuracy in \%", "interpreter","latex")
 saveas(gcf,"../report2/img/accuracy.eps","epsc")
 
 %% Result Neural Network
+test_set = readmatrix("data/test_set.csv");
+labelR = readmatrix("data/labelR.csv");
+labelT = readmatrix("data/labelT.csv");
+dataT = readmatrix("data/dataTanH.csv");
+dataR = readmatrix("data/dataReLu.csv");
+dataRL = readmatrix("data/dataRL.csv");
+
+pointInR = test_set(~labelR,:);
+pointOutR = test_set(~(~labelR),:);
+pointInT = test_set(~labelT,:);
+pointOutT = test_set(~(~labelT),:);
+radius = 1/sqrt(2*pi);
+
+figure
+plot(dataR(:,1), dataR(:,2), dataT(:,1), dataT(:,2))
+legend("ReLu", "TanH", "interpreter","latex")
+xlabel("Epochs", "interpreter","latex")
+ylabel("Loss", "interpreter","latex")
+saveas(gcf,"../report2/img/loss200.eps","epsc")
+
+figure
+plot(dataR(:,1), dataR(:,3), dataT(:,1), dataT(:,3))
+legend({"ReLu", "TanH"},"location","southeast", "interpreter","latex")
+xlabel("Epochs", "interpreter","latex")
+ylabel("Accuracy in \%", "interpreter","latex")
+saveas(gcf,"../report2/img/accuracy200.eps","epsc")
+
+figure
+plot(pointOutR(:,1),pointOutR(:,2),'b.','MarkerSize',10)
+hold on
+plot(pointInR(:,1),pointInR(:,2),'r.','MarkerSize',10)
+rectangle('Position',[0.5-radius 0.5-radius 2*radius 2*radius],'Curvature',[1 1])
+saveas(gcf,"../report2/img/relu_out.eps","epsc")
+
+figure
+hold on
+plot(pointOutT(:,1),pointOutT(:,2),'b.','MarkerSize',10)
+plot(pointInT(:,1),pointInT(:,2),'r.','MarkerSize',10)
+rectangle('Position',[0.5-radius 0.5-radius 2*radius 2*radius],'Curvature',[1 1])
+saveas(gcf,"../report2/img/tanh_out.eps","epsc")
 
