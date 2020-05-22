@@ -1,0 +1,164 @@
+\section{Strategy}
+
+First, let's remind what are weight sharing and auxiliary losses:
+\begin{itemize}
+	\item Auxiliary losses allows to promote learning for stacked modules (within an architecture) by attaching a prediction to said module(s). The (auxiliary) prediction(s) lead to auxiliary loss(es) during training, incidentally helping with the vanishing gradient issue. The back-propagation is generally done on a weighted sum of the losses. Here, because the information of each channel's digit is known, it is possible to compute a loss on each channel's digit classification in addition to the target classification.
+	\item Weight sharing refers to architectures where the same layer(s) are used several times within the network, either in a circular fashion or in a parallel one. Here, because the input consists of two channels of a 14x14 greyscale image representing a digit, each channel can be subjected to the same processing (up until where digit classification happens in case of auxiliary losses use). Thus, up until that moment, the same layers can be used.
+\end{itemize}
+
+\vspace{\baselineskip}
+
+Because the networks' architectures need to be comparable, it is easier to design the nets in the following order :
+
+\begin{enumerate}
+	\item weight sharing and auxiliary losses (thereafter WS+AL net) 
+	\item weight sharing (thereafter WS net) 
+	\item auxiliary losses (thereafter AL net) 
+	\item none (thereafter naive net) 
+\end{enumerate}
+
+Indeed, it allows to increasingly remove the investigated features from the network as they are designed, thus allowing that the designed layers are adapted to all architectures, while guaranteeing that they remain similar throughout the nets. 
+
+\subsection{Digit classification}
+
+The network with both weight sharing and auxiliary losses requires a module that can classify a digit, so that module can be shared between both input channels (weight sharing), and so that losses can be computed on it for each input channel (auxiliary losses). 
+Thus, the first network implemented is one that classifies the digits.
+It was designed with keeping in mind LeNet-5 architecture~\cite{lecun-98}, and looks like:
+
+\begin{figure}[H]
+	\begin{center}
+		\begin{tikzpicture}
+		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includesvg[width=\textwidth]{nn_digit}};
+		\begin{scope}[x={(image.south east)},y={(image.north west)}]
+		
+		\node[blue] at (0.045,0.7) {INPUT};
+		\node[blue] at (0.965,0.7) {OUTPUT};
+		
+		\node[] at (0.09, 0) {conv (3,3)};
+		\node[align=center] at (0.25, 0) {max pool (2,2) \\stride 1 \\padding};
+		\node[] at (0.4, 0) {conv (3,3)};
+		\node[align=center] at (0.57, -0.1) {max pool (2,2) \\stride 2 \\no padding};
+		\node[] at (0.72, 0) {FC};
+		\node[] at (0.88, -0.1) {FC};
+		\node[] at (0.97, 0.1) {FC};
+				
+		\end{scope}
+		\end{tikzpicture}
+		\caption{Digit classification module.}
+	\end{center}
+\end{figure}
+
+Because the performance (based on its accuracy) of this network is satisfying (see Section~\ref{sec::results}), it can be used as a module for the WS+AL net. This digit classification network used as module is referred to as the DCM (digit classification module) for the rest of the report.
+
+%\begin{figure}[H]
+%	\begin{subfigure}[h]{0.32\textwidth}
+%		\begin{center}
+%			\begin{tikzpicture}
+%			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.6\textwidth]{ex3_2a}};
+%			
+%			\begin{scope}[x={(image.south east)},y={(image.north west)}]
+%			
+%			\node[] at (0.40, 0.78) {$\theta$};
+%			\node[] at (0.7,0.32) {$\theta$};
+%			
+%			\node[blue] at (0.48,0.98) {$z_1$};
+%			\node[blue] at (-0.05,0.2) {$x_1$};
+%			\node[blue] at (0.92,0.12) {$y_1$};
+%			
+%			\node[red] at (0.28,1.04) {$z_2$};
+%			\node[red] at (0.06,0.12) {$x_2$};
+%			\node[red] at (0.92,0.36) {$y_2$};
+%			
+%			\end{scope}
+%			\end{tikzpicture}
+%			\caption{rotation autour de $x$}
+%		\end{center}
+%	\end{subfigure}
+%	\begin{subfigure}[h]{0.32\textwidth}
+%		\begin{center}
+%			\begin{tikzpicture}
+%			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.6\textwidth]{ex3_2b}};
+%			
+%			\begin{scope}[x={(image.south east)},y={(image.north west)}]
+%			
+%			\node[] at (0.39, 0.72) {$\theta$};
+%			\node[] at (0.18,0.21) {$\theta$};
+%			
+%			\node[blue] at (0.48,0.98) {$z_1$};
+%			\node[blue] at (-0.05,0.2) {$x_1$};
+%			\node[blue] at (0.94,0.12) {$y_1$};
+%			
+%			\node[red] at (0.28,0.88) {$z_2$};
+%			\node[red] at (-0.04,0) {$x_2$};
+%			\node[red] at (0.94,0.2) {$y_2$};
+%			
+%			\end{scope}
+%			\end{tikzpicture}
+%			\caption{rotation autour de $y$}
+%		\end{center}
+%	\end{subfigure}
+%	\begin{subfigure}[h]{0.32\textwidth}
+%		\begin{center}
+%			\begin{tikzpicture}
+%			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.6\textwidth]{ex3_2c}};
+%			
+%			\begin{scope}[x={(image.south east)},y={(image.north west)}]
+%			
+%			\node[] at (0.22, 0.22) {$\theta$};
+%			\node[] at (0.78,0.27) {$\theta$};
+%			
+%			\node[blue] at (0.48,0.98) {$z_1$};
+%			\node[blue] at (-0.06,0.2) {$x_1$};
+%			\node[blue] at (0.94,0.12) {$y_1$};
+%			
+%			\node[red] at (0.38,0.98) {$z_2$};
+%			\node[red] at (0.16,0.04) {$x_2$};
+%			\node[red] at (1.06,0.26) {$y_2$};
+%			
+%			\end{scope}
+%			\end{tikzpicture}
+%			\caption{rotation autour de $z$}
+%		\end{center}
+%	\end{subfigure}
+%\end{figure}
+ 
+
+\subsection{Architectures}
+
+From the DCM are then built the other architectures :
+
+
+
+\subsection{Activation functions, criterions and }
+
+\subsection{Number of epochs}
+
+\subsection{Statistical relevance}
+\newpage
+
+1) optimal number of epochs
+
+2) number of params
+
+3) final performance
+
+
+\subsection{digit classification}
+
+LeNet-5~\cite{lecun-98}
+
+\subsection{neural network with pytorch}
+
+https://discuss.pytorch.org/t/linear-layer-input-neurons-number-calculation-after-conv2d/28659
+
+\subsection{DAG + weight sharing}
+
+ee559-handout-4-1-DAG-networks.pdf
+
+https://pytorch.org/tutorials/beginner/examples\_nn/dynamic\_net.html
+
+\subsection{auxiliary loss}
+
+https://stats.stackexchange.com/questions/304699/what-is-auxiliary-loss-as-mentioned-in-pspnet-paper/
+
+https://discuss.pytorch.org/t/how-to-optimize-inception-model-with-auxiliary-classifiers/7958 

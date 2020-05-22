@@ -1,10 +1,19 @@
 \section{Introduction}
 
-LeNet-5~\cite{lecun-98}
+The objective of this project is to compare different deep networks architectures. 
+Each network aims to compare two digits, represented each on a 14x14 greyscale single channel image. 
+The networks should predict for each pair whether the first digit is lesser or equal to the second.
+Thus, the networks' input is a 2x14x14 tensor, and their output consists of two classes.
+
+\vspace{\baselineskip}
+
+In particular, the architectures comparison should quantitatively assess the merits of using weight sharing and / or auxiliary losses (or none).
+
+\vspace{\baselineskip}
+
+To that end, four architectures are to be implemented. 
+They should have similar layers, though not used in the same way, so that the comparison is actually relevant. 
+Comparisons should be based on estimated final accuracy, estimated required epoch number for "good training" and epoch training duration. 
+For the results to hold statistical values, performance should be estimated on $N$ rounds.
 
 
-1) optimal number of epochs
-
-2) number of params~\cite{weir-08}
-
-3) final performance~\cite{colgate-94}
