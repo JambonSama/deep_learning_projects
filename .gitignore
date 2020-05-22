@@ -17,6 +17,7 @@
 *.pygtex
 *.pygstyle
 *.pck
+*-eps-converted-to.pdf
 
 # Specific paths
 **/data
