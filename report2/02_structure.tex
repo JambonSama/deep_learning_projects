@@ -21,7 +21,7 @@ To use the \mintinline{python}{class NeuralNetwork}, a class for the layer is ne
  
 \subsection{Layer}
 
-The second \mintinline{python}{class} is \mintinline{python}{Linear}. The \mintinline{python}{class Linear} contain the following function (The complete code for \mintinline{python}{class Linear} is in the appendix~\ref{app::Layer}) 
+The second class is Linear. The \mintinline{python}{class Linear} contain the following function (The complete code for \mintinline{python}{class Linear} is in the appendix~\ref{app::Layer}) 
 
 \begin{itemize}
 	\item \mintinline{python}{def __init__(self, nb_input, nb_output)} : Create the Linear layer and initialize the weight and bias matrix with the Xavier initialization.
@@ -33,4 +33,25 @@ The second \mintinline{python}{class} is \mintinline{python}{Linear}. The \minti
 	\item \mintinline{python}{def params(self)} : Print useful information about the  layer, his type, number of neuron input and output, shape of the weight and bias matrix and value of those matrix.
 \end{itemize}
 
-To implement the ReLu and the TanH layer, two child class was made. In this two class, the constructor, the activation and the derivative activation function are overload to have the correct function and initialization for ReLu and TanH layer. 
+To implement the ReLu and the TanH layer, two child class was made. In this two class, the constructor, the activation and the derivative activation function are overload to have the correct function and initialization for ReLu and TanH layer. Those function are resume in the Table~\ref{tab::layer_recap}
+
+\begin{table}[H]
+	\sffamily
+	\footnotesize
+	\arrayrulecolor{white}
+	\arrayrulewidth=1pt
+	\renewcommand{\arraystretch}{1.5}
+	\rowcolors[\hline]{1}{.!50!White}{}
+	\centering
+	\begin{tabular}{@{} A|A|A|A @{}}
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries  Layer &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries Initialization &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries Activation function &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries Derivative Activation function  \\   
+		\arraycolor{Black}
+		ReLu			& Xavier	& max(0,x)		& 1 if x>0 else 0 		 		\\
+		TanH			& He		& tanh(x) 		& 1 - tanh$^2$(x)		
+	\end{tabular}
+	\caption{ReLu and TanH description.}
+	\label{tab::layer_recap}
+\end{table}
