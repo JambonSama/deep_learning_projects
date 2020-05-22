@@ -2,22 +2,22 @@
 
 First, all five networks perform well, with average accuracies ranging from 83\% to 91\%.
 
-In terms of accuracy, the networks are sorted as naive net, WS net, AL net and the best is WS+AL net (DCM is not sorted, because it doesn't classify the same thing, so it's not compared). 
-This is what was expected, though AL nets (both AL net and WS+AL) depend on the weighting of the auxiliary losses. 
+In terms of accuracy, the networks are sorted as naive net, WS net, AL net and the best is WS+AL net (DCM is not sorted, because it doesn't output the same thing, so it's not compared). 
+This is what was expected, though AL nets (both AL net and WS+AL) accuracy depends on the weighting of the auxiliary losses. 
 
 In terms of optimal number of training epochs, the networks are sorted as WS+AL net, AL net, naive net and the best is WS net. 
-Indeed, a lower optimal number of training epochs indicates that the networks converge faster to an optimum between underfitting and overfitting.
+Indeed, a lower optimal number of training epochs indicates that the networks converge faster to an optimum between under-fitting and over-fitting.
 
-The number of parameters is roughly doubled from WS networks to those without (again, not considering DCM), which is expected as well.
+The number of parameters is roughly doubled from WS networks to those without (again, not considering DCM), which is expected as well, considering the networks' structures.
 
-The epoch training durations seem like reasonable times to spend on a epoch.
+The epoch training durations seem like reasonable times to spend on an epoch.
 
-Statistically, if their is a probability of 95.2\% of correctly classifying a digit (DCM), then, the probability of correctly classifying two digits is $95.2^2 = 90.6$\%, which is the accuracy of the WS+AL net; so those results seem consistent with each other.
+Statistically, if there is a probability of 95.2\% of correctly classifying a digit (DCM), then, the probability of correctly classifying two digits is $0.952^2 = 90.6$\%, which corresponds to the accuracy of the WS+AL net; so those results seem consistent with each other.
 
-The loss graphs on Figure~\ref{fig::losses} show that losses without auxiliary losses are initially lower than with AL. It also show that the losses with AL evolve similarly, and the losses without also evolve similarly.
+The loss graphs on Figure~\ref{fig::losses} show that losses without auxiliary losses are initially lower than with AL. It also show that the losses with AL evolve similarly to one another, and the losses without also evolve similarly to one another.
 They also show that in case of auxiliary losses as implemented here, all the intermediate losses present a similar value and evolution.
 
-On a less positive note, the DCM sometimes present very average accuracy (going as low as 36\% on one run), with very high variances (46\% for the same run). It happens scarcely, but it still happens, and the reason why is not well understood. 
+On a less positive note, the DCM sometimes trains to a very low average accuracy (going as low as 36\% on one run), with very high variances (46\% for the same run). It happens scarcely, but it still happens, and the reason why is not well understood. 
 
 All in all, for a qualitative assessment, the WS+AL net is a very good one, and classifies well the pairs as required in the project guidelines.
 

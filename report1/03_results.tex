@@ -4,7 +4,8 @@
 The script \verb|test.py| provided runs an experiment where first 20 rounds are made to determine the estimated optimal number of epochs for training each of the five networks. 
 Then, 20 rounds are run to train and test these networks, and produce all the other metrics (besides the optimal number of training epochs). 
 All metrics are analysed in the script to produce the results (tables and figures) presented hereafter, but they are also saved in \verb|.csv| files. 
-The only result that is not produced by the script but referenced in the report in Section~\ref{sub::sec::digit_classification} is the how the accuracy of the DCM was \textit{initially} estimated, because the process was described, and \textit{final} accuracy estimation is provided (within the script as well).
+The only result that is not produced by the script but referenced in the report is the how the accuracy of the DCM was \textit{initially} estimated.
+It was not included in the script, because the process is well documented in Section~\ref{sub::sec::digit_classification}, it is a minor result, and \textit{final} accuracy estimation is provided within the script.
 The script also displays the execution time.
 
 Metrics obtained after a run of the \verb|test.py| script are reported on Table~\ref{tab::net_metrics} below:
@@ -68,9 +69,9 @@ The losses are plotted for easier reading on Figure~\ref{fig::losses} below:
 	\label{fig::losses}
 \end{figure}
 
-The \verb|NumPy| package is indeed used for this project, but \textit{only} for \verb|.csv| saving and for plotting with \verb|pyplot|, and not for networks- or statistics-related processing.
+The \verb|NumPy| package is used for this project, but \textit{only} for \verb|.csv| saving and \verb|pyplot| plotting, and not for networks- or statistics-related processing.
 
-Finally, the \verb|test.py| in its entirety was coarsely benchmarked, and the results are presented in Table~\ref{tab::script_metrics} below:
+Finally, the \verb|test.py| script in its entirety was coarsely benchmarked, and the results are presented in Table~\ref{tab::script_metrics} below:
 
 \begin{table}[H]
 	\sffamily
