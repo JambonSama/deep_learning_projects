@@ -1,5 +1,5 @@
 \section{Initialization choice}
-In this project, we use two different initialization for the weight and bias. For the TanH layer, we use the Xavier initialization, thus the weight are initialize from a random distribution with a mean of $0$ and a variance of $\dfrac{2}{size^{Layer-1}+size^{Layer}}$ and initialize the bias to $0$. For the ReLu layer, we use the He initialization which is the same initialization as Xavier initialization but with two time the variance. Those initialization help to reduce the risk that the gradients vanish or explode.
+In this project, two different initializations for the weight and bias are used. For the TanH layer, the Xavier initialization is use, thus the weight are initialize from a random distribution with a mean of $0$ and a variance of $\dfrac{2}{size^{Layer-1}+size^{Layer}}$ and initialize the bias to $0$. For the ReLu layer, the He initialization is use which is the same initialization as Xavier initialization but with two time the variance. Those initialization help to reduce the risk that the gradients vanish or explode.
 
 \begin{figure}[H]
 	\begin{subfigure}[h]{0.35\textwidth}
