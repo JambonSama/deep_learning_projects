@@ -5,6 +5,7 @@
 ######################################################################
 # imports
 
+import pickle
 import torch
 import networks as nw
 import data_loader as dl
@@ -72,7 +73,7 @@ for i in range(ROUND_NUM):
         accuracy = net.test_net(test_loader)
         accuracies[i, j] = accuracy
 
-    # results
+    # results archiving
     loss_arrays.append(losses)
 
 ######################################################################
@@ -86,7 +87,14 @@ for i, net in enumerate(nets, 0):
     param_nums[i] = sum(p.numel() for p in net.parameters() if p.requires_grad)
 
 ######################################################################
-# results displaying + archiving as csv
+# results archiving
+
+f = open('results.pck', 'wb')
+pickle.dump((epoch_training_duration, param_nums,
+             epoch_nums, loss_arrays, accuracies), f)
+
+######################################################################
+# results displaying
 
 ra.prepare_results(epoch_training_duration, param_nums,
                    epoch_nums, loss_arrays, accuracies)
