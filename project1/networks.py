@@ -12,22 +12,48 @@ import torch.optim as optim
 
 
 class AutoNet(nn.Module):
+    """
+    AutoNet class : Mother class from which our instanciated networks 
+    inherit, this abstract class provides methods for automatic 
+    network processing and benchmarking.
+    """
+
     def __init__(self):
         super().__init__()
 
     def get_loss_number(self):
+        """
+        Pure virtual method which in daughter classes returns the number 
+        of losses (for storing the losses in lists) returned by the 
+        forward pass (1 without AL, 4 if AL).
+        """
         raise NotImplementedError
 
     def measure_epoch_training_duration(self, train_loader):
+        """
+        Measures the time spent training on one epoch of train_loader.
+        Parameter :
+            train_loader -- DataLoader for training 
+        """
         start = time.time()
         self.train_epoch(train_loader)
         end = time.time()
         return (end - start)
 
     def train_batch(self, parameter_list):
+        """
+        Pure virtual method which in daughter classes trains one batch.
+        Parameter :
+            parameter_list -- in daughter classes, the batch to train
+        """
         raise NotImplementedError
 
     def train_epoch(self, train_loader):
+        """
+        Trains the network for one epoch on the DataLoader passed.
+        Parameter :
+            train_loader -- DataLoader on which to train
+        """
         loss_array = []
         for batch in train_loader:
             loss = self.train_batch(batch)
@@ -35,6 +61,13 @@ class AutoNet(nn.Module):
         return loss_array
 
     def train_net(self, epoch_num, train_loader):
+        """
+        Trains the networks on the DataLoader passed for a certain
+        number of epochs.
+        Parameters :
+            epoch_num -- number of epochs to train
+            train_loader -- DataLoader on which to train
+        """
         loss_array = []
         for i in range(epoch_num):
             losses = self.train_epoch(train_loader)
@@ -42,9 +75,23 @@ class AutoNet(nn.Module):
         return loss_array
 
     def test_net(self, parameter_list):
+        """
+        Pure virtual methods which in daughter classes test the network
+        on the DataLoader passed and returns the accuracy on that set.
+        Parameter : 
+            test_loader -- DataLoader on which to test the network
+        """
         raise NotImplementedError
 
     def determine_epoch_num(self, epoch_loader, valid_loader, max_epoch_num=200):
+        """
+        Estimates the optimal number of epochs for which to train the 
+        network in order to avoid both over and under fitting.
+        Parameters :
+            epoch_loader -- DataLoader used to train the network
+            valid_loader -- DataLoader used to verify wheter the training starts to overfit
+            max_epoch_num -- max number of epoch on which to train
+        """
         perf = self.test_net(valid_loader)
         threshold = 20
         cummulative_overfit = 0
@@ -64,6 +111,11 @@ class AutoNet(nn.Module):
 
 
 class DigitNet(AutoNet):  # TODO: no separation
+    """
+    DigitNet class : This class is a network that takes a single 
+    channel 14x14 grayscale image of digit and returns the digit class.
+    """
+
     def __init__(self):
         super().__init__()
         # convolutional layers
@@ -81,6 +133,9 @@ class DigitNet(AutoNet):  # TODO: no separation
         self.opti = optim.Adam(self.parameters())
 
     def forward(self, x):
+        """
+        Applies the forward pass.
+        """
         x = torch.unsqueeze(x[:, 0, :, :], 1)  # unsqueeze for convl
         x = self.pool1(F.celu(self.conv1(x)))
         x = self.pool2(F.celu(self.conv2(x)))
@@ -118,6 +173,14 @@ class DigitNet(AutoNet):  # TODO: no separation
 
 
 class NaiveNet(AutoNet):  # TODO: no separation
+    """
+    NaiveNet class : This class is a network that takes two images of 
+    a digit in input, each on a single channel 14x14 tensor, and 
+    outputs whether the first digit is lesser or equal to the second 
+    (two classes). This net doesn't present either weight sharing nor 
+    auxiliary losses.
+    """
+
     def __init__(self):
         super().__init__()
         # convolutional layers
@@ -141,6 +204,9 @@ class NaiveNet(AutoNet):  # TODO: no separation
         self.opti = optim.Adam(self.parameters())
 
     def forward(self, x):
+        """
+        Applies the forward pass.
+        """
         x0 = torch.unsqueeze(x[:, 0, :, :], 1)  # unsqueeze for convl
         x0 = self.pool1(F.celu(self.conv1_0(x0)))
         x0 = self.pool2(F.celu(self.conv2_0(x0)))
@@ -189,6 +255,14 @@ class NaiveNet(AutoNet):  # TODO: no separation
 
 
 class WeightSharingNet(AutoNet):
+    """
+    WeightSharingNet class : This class is a network that takes two 
+    images of a digit in input, each on a single channel 14x14 tensor, 
+    and outputs whether the first digit is lesser or equal to the 
+    second (two classes). This net presents weight sharing, but not 
+    auxiliary losses.
+    """
+
     def __init__(self):
         super().__init__()
         # convolutional layers
@@ -207,6 +281,9 @@ class WeightSharingNet(AutoNet):
         self.opti = optim.Adam(self.parameters())
 
     def forward(self, x):
+        """
+        Applies the forward pass.
+        """
         x0 = torch.unsqueeze(x[:, 0, :, :], 1)  # unsqueeze for convl
         x0 = self.pool1(F.celu(self.conv1(x0)))
         x0 = self.pool2(F.celu(self.conv2(x0)))
@@ -255,6 +332,14 @@ class WeightSharingNet(AutoNet):
 
 
 class AuxiliaryLossesNet(AutoNet):  # TODO: no separation
+    """
+    WeightSharingNet class : This class is a network that takes two 
+    images of a digit in input, each on a single channel 14x14 tensor, 
+    and outputs whether the first digit is lesser or equal to the 
+    second (two classes). This net presents auxiliary losses, but not 
+    weight sharing.
+    """
+
     def __init__(self):
         super().__init__()
         # convolutional layers
@@ -278,6 +363,9 @@ class AuxiliaryLossesNet(AutoNet):  # TODO: no separation
         self.opti = optim.Adam(self.parameters())
 
     def forward(self, x):
+        """
+        Applies the forward pass.
+        """
         x0 = torch.unsqueeze(x[:, 0, :, :], 1)  # unsqueeze for convl
         x0 = self.pool1(F.celu(self.conv1_0(x0)))
         x0 = self.pool2(F.celu(self.conv2_0(x0)))
@@ -333,6 +421,14 @@ class AuxiliaryLossesNet(AutoNet):  # TODO: no separation
 
 
 class WsalNet(AutoNet):
+    """
+    WeightSharingNet class : This class is a network that takes two 
+    images of a digit in input, each on a single channel 14x14 tensor, 
+    and outputs whether the first digit is lesser or equal to the 
+    second (two classes). This net presents both weight sharing and 
+    auxiliary losses.
+    """
+
     def __init__(self):
         super().__init__()
         # convolutional layers
@@ -351,6 +447,9 @@ class WsalNet(AutoNet):
         self.opti = optim.Adam(self.parameters())
 
     def forward(self, x):
+        """
+        Applies the forward pass.
+        """
         x0 = torch.unsqueeze(x[:, 0, :, :], 1)  # unsqueeze for convl
         x0 = self.pool1(F.celu(self.conv1(x0)))
         x0 = self.pool2(F.celu(self.conv2(x0)))

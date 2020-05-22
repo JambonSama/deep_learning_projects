@@ -11,6 +11,16 @@ import numpy as np  # only for plots + csv export
 
 
 def prepare_results(epoch_training_durations, param_nums, epoch_nums, loss_arrays, accuracies):
+    """
+    Prepares the all the metrics obtained from training and testing 
+    the N nets for data visualizations.
+    Parameters : 
+        epoch_training_durations -- tensor of size N containing the duration of one epoch training for each net
+        param_nums -- tensor of size N containing the number of parameters for each of the N nets
+        epoch_nums -- tensor of size N containing the estimated optimal number of epochs for training each of the N nets
+        loss_arrays -- list of size 20 x N x epoch_num (x AL_num + 1) to store all the losses over the epochs, nets and rounds
+        accuracies -- tensor of size 20xN containing the estimated accuracy of each of the N nets over the 20 rounds
+    """
     dirName = "results"
     if not os.path.exists(dirName):
         os.mkdir(dirName)

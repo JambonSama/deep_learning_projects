@@ -54,7 +54,7 @@ for i in range(ROUND_NUM):
         valid_loader, epoch_loader, _, _ = dl.generate_set_loaders(
             N, BATCH_SIZE, VALIDATION_RATIO)
 
-        # determining "good" epoch number
+        # determining estimated optimal epoch number
         epoch_num = net.determine_epoch_num(epoch_loader, valid_loader)
         epoch_nums[i][j] = epoch_num
 
