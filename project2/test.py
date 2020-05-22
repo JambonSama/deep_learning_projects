@@ -18,8 +18,10 @@ def main():
     # Training set
     train_set = torch.rand(1000,2)
     train_distance = ((train_set[:,0]-center[0]).pow(2)+(train_set[:,1]-center[1]).pow(2))
-    train_label = torch.stack((torch.tensor([1 if i < radius2 else 0 for i in train_distance]),\
-        torch.tensor([1 if i >= radius2 else 0 for i in train_distance])),dim=1)
+    train_label = torch.tensor([1 if i < radius2 else 0 for i in train_distance])
+    # Transform the train_label to be use by the neural network
+    train_label_output  = torch.stack((train_label, torch.tensor([1 if i >= radius2 else 0 for i in train_distance]))\
+        ,dim=1)
 
     # Test set
     test_set = torch.rand(1000,2)
@@ -32,7 +34,7 @@ def main():
     net.sequential(layer.TanH(2,25), layer.TanH(25,25), layer.TanH(25,25), layer.TanH(25,2))
     #net.sequential(layer.ReLu(2,25), layer.ReLu(25,25), layer.ReLu(25,25), layer.ReLu(25,2))
     print("**** Training the neural network ****")
-    net.train_network(train_set, train_label, epochs=200, batch_size=1, learning_rate=0.02, print_error=True, \
+    net.train_network(train_set, train_label_output, epochs=200, batch_size=1, learning_rate=0.02, print_error=True, \
         test_set=test_set, test_label=test_label)
     print("**** Training done ****")
     net.params()
