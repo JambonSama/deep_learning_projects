@@ -5,15 +5,10 @@ Each network aims to compare two digits, represented each on a 14x14 greyscale s
 The networks should predict for each pair whether the first digit is lesser or equal to the second.
 Thus, the networks' input is a 2x14x14 tensor, and their output consists of two classes.
 
-\vspace{\baselineskip}
-
 In particular, the architectures comparison should quantitatively assess the merits of using weight sharing and / or auxiliary losses (or none).
 
-\vspace{\baselineskip}
 
 To that end, four architectures are to be implemented. 
 They should have similar layers, though not used in the same way, so that the comparison is actually relevant. 
-Comparisons should be based on estimated final accuracy, estimated required epoch number for "good training" and epoch training duration. 
-For the results to hold statistical values, performance should be estimated on $N$ rounds.
-
-
+Comparisons should be based on estimated final accuracy, estimated optimal epoch number for training and epoch training duration. 
+For the results to hold statistical values, performance should be estimated on 20 rounds.

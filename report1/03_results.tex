@@ -1,4 +1,97 @@
 \section{Results} 
 \label{sec::results}
 
-\subsection{Epoch training time}
+The script \verb|test.py| provided runs an experiment where first 20 rounds are made to determine the estimated optimal number of epochs for training each of the five networks. 
+Then, 20 rounds are run to train and test these networks, and produce all the other metrics (besides the optimal number of training epochs). 
+All metrics are analysed in the script to produce the results (tables and figures) presented hereafter, but they are also saved in \verb|.csv| files. 
+The only result that is not produced by the script but referenced in the report in Section~\ref{sub::sec::digit_classification} is the how the accuracy of the DCM was \textit{initially} estimated, because the process was described, and \textit{final} accuracy estimation is provided (within the script as well).
+The script also displays the execution time.
+
+Metrics obtained after a run of the \verb|test.py| script are reported on Table~\ref{tab::net_metrics} below:
+
+\begin{table}[H]
+	\sffamily
+	\footnotesize
+	\arrayrulecolor{white}
+	\arrayrulewidth=1pt
+	\renewcommand{\arraystretch}{1.5}
+	\rowcolors[\hline]{1}{.!50!White}{}
+	\centering
+	\begin{tabular}{@{} A|B|B|B|B|B @{}}
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries  &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries DCM &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries naive net &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries WS net &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries AL net &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries WS+AL net \\   
+		\arraycolor{Black}
+		Opt. num. of training epochs 			& 51 	& 18 		& 15 		& 21 		& 23 		\\
+		Accuracy (mean) [\%] 					& 95.2 	& 83.5 		& 87.1 		& 88.9 		& 90.9 		\\
+		Accuracy (std) [\%]						& 1.6 	& 1.6 		& 0.8 		& 0.7 		& 1.0 		\\
+		Epoch training duration [\si{\second}] 	& 0.909 & 1.502 	& 1.389 	& 1.578 	& 1.351 	\\
+		Number of parameters 					& 60074 & 120190 	& 60116 	& 120190 	& 60116
+	\end{tabular}
+	\caption{Metrics measured on the networks.}
+	\label{tab::net_metrics}
+\end{table}
+
+Let's remind that accuracy and loss (both mean and variance), as well as the optimal number of training epochs are \textit{estimated} metrics; while epoch training duration is a one time measure (for sanity's sake while coding and because the result needs only to be indicative), and number of parameters is an exact integer value.
+
+The losses are plotted for easier reading on Figure~\ref{fig::losses} below:
+
+\begin{figure}[H]
+	\begin{subfigure}[h]{0.245\textwidth}
+		\begin{center}
+			\includesvg[width=\textwidth]{fig0}
+			\caption{Plot of average loss over an epoch for naive net, WS net, AL net and WS+AL net}
+		\end{center}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.245\textwidth}
+		\begin{center}
+			\includesvg[width=\textwidth]{fig2}
+			\caption{Plot of average loss over an epoch for DCM}
+		\end{center}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.245\textwidth}
+		\begin{center}
+			\includesvg[width=\textwidth]{fig1_3}
+			\caption{Plot of average loss over an epoch for all four losses of AL net}
+		\end{center}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.245\textwidth}
+		\begin{center}
+			\includesvg[width=\textwidth]{fig1_4}
+			\caption{Plot of average loss over an epoch for all four losses of WS+AL net}
+		\end{center}
+	\end{subfigure}
+	\caption{Loss plot over epochs of the networks training, std and mean computed over the rounds.}
+	\label{fig::losses}
+\end{figure}
+
+The \verb|NumPy| package is indeed used for this project, but \textit{only} for \verb|.csv| saving and for plotting with \verb|pyplot|, and not for networks- or statistics-related processing.
+
+Finally, the \verb|test.py| in its entirety was coarsely benchmarked, and the results are presented in Table~\ref{tab::script_metrics} below:
+
+\begin{table}[H]
+	\sffamily
+	\footnotesize
+	\arrayrulecolor{white}
+	\arrayrulewidth=1pt
+	\renewcommand{\arraystretch}{1.5}
+	\rowcolors[\hline]{1}{.!50!White}{}
+	\centering
+	\begin{tabular}{@{} C|C|C|C|C @{}}
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries platform &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries processor &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries frequency [MHz] &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries logical cores &
+		\cellcolor{ForestGreen}\arraycolor{White}\bfseries time [m:s] \\ 
+		\arraycolor{Black}
+		ManjaroKDE@linux	& Intel i5-7600K& 4200&  4& 17:30\\
+		Kubuntu@linux		& Intel i7-9850H& 3500& 12& 23:27\\
+		Windows10@windows	& Intel i5-8600k& 4200&  6& 59:58\\
+		provided VM			& Intel i5-8600k& 4200&  1& 31:06
+	\end{tabular}
+	\caption{Metrics measured on the networks.}
+	\label{tab::script_metrics}
+\end{table}
