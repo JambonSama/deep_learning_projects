@@ -1,37 +1,5 @@
 # Deep learning, projects
 
-## New files, new paths
+This is our repository for the mini-projects of the [EPFL course Deep Learning](https://edu.epfl.ch/coursebook/en/deep-learning-EE-559 "EPFL - Deep Learning").
 
-On rappelle que sur Windows, par défaut, les chemins d'accès sont case insensitive :
-
-https://superuser.com/questions/165975/are-all-versions-of-windows-case-insensitive
-
-Best practices conseillent généralement :
-
-- pas d'espace(s)
-- pas de majuscule(s)
-- et évidemment, pas de caractères spéciaux
-
-
-## GIT
-
-Règles d'or :
-
-- au début de chaque session de travail : `pull`
-- à chaque milestone de travail : `commit`
-- à la fin de chaque session de travail : `commit`, `pull`, `push`
-- un commit comment est sous la forme :
-	- added : What was added.
-	- modified : What was modified. 
-	- deleted : What was deleted.
-
-Plus en détail :
-
-http://justinhileman.info/article/git-pretty/
-
-## .gitignore
-
-> A gitignore file specifies intentionally untracked files that Git should ignore. Files already tracked by Git are not affected.
-
-Pour plus de détails, voir : https://git-scm.com/docs/gitignore
-
+The two projects were to be done with Python. The course actually had [super good ressources available](https://fleuret.org/dlc/ "François Fleuret - Deep Learning course resources"), courtesy of François Fleuret. Please read the ee559-miniprojects.pdf for a description of the miniprojects.
